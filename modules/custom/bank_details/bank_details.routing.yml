@@ -1,0 +1,56 @@
+# Route name can be used in several places; e.g. links, redirects, and local
+# actions.
+entity.bank_details.canonical:
+  path: '/bank_details/{bank_details}'
+  defaults:
+  # Calls the view controller, defined in the annotation of the bank_details entity
+    _entity_view: 'bank_details'
+    _title: 'bank_details Content'
+  requirements:
+  # Calls the access controller of the entity, $operation 'view'
+    _entity_access: 'bank_details.view'
+
+entity.bank_details.collection:
+  path: '/bank_details/list'
+  defaults:
+  # Calls the list controller, defined in the annotation of the bank_details entity.
+    _entity_list: 'bank_details'
+    _title: 'bank_details List'
+  requirements:
+  # Checks for permission directly.
+    _permission: 'view bank_details entity'
+
+bank_details.bank_details_add:
+  path: '/bank_details/add'
+  defaults:
+  # Calls the form.add controller, defined in the bank_details entity.
+    _entity_form: bank_details.add
+    _title: 'Add bank_details'
+  requirements:
+    _entity_create_access: 'bank_details'
+
+entity.bank_details.edit_form:
+  path: '/bank_details/{bank_details}/edit'
+  defaults:
+  # Calls the form.edit controller, defined in the bank_details entity.
+    _entity_form: bank_details.edit
+    _title: 'Edit bank_details'
+  requirements:
+    _entity_access: 'bank_details.edit'
+
+entity.bank_details.delete_form:
+  path: '/bank_details/{bank_details}/delete'
+  defaults:
+    # Calls the form.delete controller, defined in the bank_details entity.
+    _entity_form: bank_details.delete
+    _title: 'Delete bank_details'
+  requirements:
+    _entity_access: 'bank_details.delete'
+
+bank_details.bank_details_settings:
+  path: 'admin/structure/bank_details_settings'
+  defaults:
+    _form: '\Drupal\bank_details\Form\bank_detailsSettingsForm'
+    _title: 'bank_details Settings'
+  requirements:
+    _permission: 'administer bank_details entity'

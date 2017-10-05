@@ -1,0 +1,16 @@
+global-styling:
+  version: 1.x
+  css:
+    theme:
+      css/overrides.min.css: {}
+      css/style.css: {}
+global-js:
+  js:
+    js/script.js: {}
+    js/jquery.menu-toggle.js : {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+
+
+

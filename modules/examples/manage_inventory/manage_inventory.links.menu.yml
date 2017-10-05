@@ -1,0 +1,13 @@
+
+# Define the menu links for this module
+
+entity.inventory.collection:
+  title: 'Inventory Entity: Inventory Listing'
+  route_name: entity.inventory.collection
+  description: 'List Inventory'
+  weight: 10
+inventory.admin.structure.settings:
+  title: 'Inventory Settings'
+  description: 'Configure Inventory entity'
+  route_name:  inventory.inventory_settings
+  parent: system.admin_structure

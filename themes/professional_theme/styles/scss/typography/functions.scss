@@ -1,0 +1,4 @@
+@function calculateRem($size, $baseFontSize: $baseFontSizeValue) {
+  $remSize: $size / $baseFontSize;
+  @return #{$remSize}rem;
+}

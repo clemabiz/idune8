@@ -1,0 +1,11 @@
+# All action links for this module
+
+inventory.inventory_add:
+  # Which route will be called by the link
+  route_name: entity.inventory.add_form
+  title: 'Add Inventory'
+
+  # Where will the link appear, defined by route name.
+  appears_on:
+    - entity.inventory.collection
+    - entity.inventory.canonical

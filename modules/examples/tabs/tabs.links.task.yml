@@ -1,0 +1,31 @@
+menutest.home:
+  path: '/home'
+  defaults:
+    _content: '\Drupal\menutest\Controller\IndexController::index'
+    _title: 'Hello World'
+  requirements:
+    _permission: 'access content'
+
+menutest.tab1:
+  path: '/home/tab1'
+  defaults:
+    _content: '\Drupal\menutest\Controller\IndexController::tab1'
+    _title: 'Tab 1'
+  requirements:
+    _permission: 'access content'
+
+menutest.tab2:
+  path: '/home/tab2'
+  defaults:
+    _content: '\Drupal\menutest\Controller\IndexController::tab2'
+    _title: 'Tab 2'
+  requirements:
+    _permission: 'access content'
+
+menutest.tab2sub2:
+  path: '/home/tab1/sub2'
+  defaults:
+    _content: '\Drupal\menutest\Controller\IndexController::tab1SubTab2'
+    _title: 'Tab 2'
+  requirements:
+    _permission: 'access content'

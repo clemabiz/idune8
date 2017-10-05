@@ -1,0 +1,11 @@
+name: 'Require Login'
+description: 'Requires anonymous users to login before using the site.'
+type: module
+# core: 8.x
+configure: require_login.admin
+
+# Information added by Drupal.org packaging script on 2016-09-20
+version: '8.x-1.10'
+core: '8.x'
+project: 'require_login'
+datestamp: 1474415956

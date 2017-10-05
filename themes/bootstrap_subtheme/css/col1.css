@@ -1,0 +1,16 @@
+/**
+ * Place your custom styles here.
+ */
+h1,
+h1.title {
+  font-size: 250%;   /* 30px/12px */
+}
+.node__content {
+  display: flex;
+}
+
+col1 {
+    display:inline;
+    float:left;
+    font-size: 40px;
+}

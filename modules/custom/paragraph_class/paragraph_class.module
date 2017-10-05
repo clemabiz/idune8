@@ -1,0 +1,176 @@
+<?php
+/**
+ * @file
+ * The paragraph class module.
+ */
+
+define('PC_CLASS_FIELD', 'field_pc_class');
+define('PARAGRAPHS_ENTITY_TYPE', 'paragraphs_item');
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ * Adding checkbox on the paragraph admin config page to create bundle.
+ */
+function paragraph_class_form_paragraphs_admin_bundle_form_alter(&$form, &$form_state, $form_id) {
+  $bundle = $form['#paragraphs_bundle'];
+
+  // Add custom field set for entity background.
+  $form['paragraph_class'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Paragraph Class'),
+    '#weight' => 5,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+
+  // Adding config to enable paragraph class for each paragraph bundle.
+  if ($bundle->locked == 0) {
+    $form['paragraph_class']['#description'] = t('Please create paragraph bundle before configuring paragraph class.');
+  }
+
+  if ($bundle->locked == 1) {
+    // Get pc class field instance.
+    $pc_instance = field_info_instance(PARAGRAPHS_ENTITY_TYPE, PC_CLASS_FIELD, $bundle->bundle);
+    $form['paragraph_class']['pc_enabled'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Enable paragraph class for %bundle', array('%bundle' => $bundle->name)),
+      '#default_value' => !empty($pc_instance) ? TRUE : FALSE,
+      '#disabled' => !empty($pc_instance) ? TRUE : FALSE,
+    );
+
+    // Add description.
+    if (!empty($pc_instance)) {
+      $form['paragraph_class']['pc_enabled']['#description'] = t("If you want to disable paragraph class, please delete the field from manage fields page.");
+    }
+    $form['#submit'][] = 'paragraph_class_form_paragraphs_admin_bundle_submit';
+  }
+}
+
+/**
+ * Custom submit handler for paragraph_class fieldset.
+ *
+ * @param $form
+ * @param $form_state
+ */
+function paragraph_class_form_paragraphs_admin_bundle_submit($form, &$form_state) {
+  // Get bundle.
+  $bundle = $form['#paragraphs_bundle'];
+  $enabled = $form_state['values']['pc_enabled'];
+
+  if ($enabled == TRUE) {
+    paragraph_class_add_field_pc_class(PARAGRAPHS_ENTITY_TYPE, $bundle->bundle, 'Paragraph Class');
+  }
+}
+
+/**
+ * Submit handler.
+ * @param unknown $entity_type
+ * @param unknown $bundle
+ * @param unknown $field_label
+ * @return unknown
+ */
+function paragraph_class_add_field_pc_class($entity_type, $bundle, $field_label) {
+  $field = _paragraph_class_get_field(array(
+    'field_name' => PC_CLASS_FIELD,
+    'type' => 'text',
+  ));
+
+  $instance = _paragraph_class_get_field_instance($entity_type, array(
+    'bundle' => $bundle,
+    'entity_type' => $entity_type,
+    'field_name' => $field['field_name'],
+    'label' => $field_label,
+    'display' => array(
+      'default' => array(
+        'type' => 'hidden',
+      ),
+      'paragraphs_editor_preview' => array(
+        'type' => 'hidden',
+      ),
+    ),
+  ));
+
+  return $instance;
+}
+
+/**
+ * Get/Create field by $field settings.
+ *
+ * Helper function.
+ *
+ * @param array $field
+ *   An array of field settings.
+ * @return array
+ *   A field.
+ */
+function _paragraph_class_get_field($field) {
+  // Check if the field exists already.
+  $field_info = field_info_field($field['field_name']);
+
+  if (empty($field_info)) {
+    $field_info = field_create_field($field);
+  }
+
+  return $field_info;
+}
+
+/**
+ * Get/Create field instance.
+ * @param unknown $entity_type
+ * @param unknown $instance
+ * @return Ambigous <An, The, multitype:string multitype: number , multitype:, Either, multitype:string multitype: number Ambigous <> >
+ */
+function _paragraph_class_get_field_instance($entity_type, $instance) {
+  // Check if the instance exists already.
+  $instance_info = field_info_instance($entity_type, $instance['field_name'], $instance['bundle']);
+
+  if (empty($instance_info)) {
+    $instance_info = field_create_instance($instance);
+  }
+
+  return $instance_info;
+}
+
+/**
+ * Implements template_preprocess_entity()
+ */
+function paragraph_class_preprocess_entity(&$vars) {
+  if ($vars['entity_type'] == PARAGRAPHS_ENTITY_TYPE && $vars['view_mode'] == 'full') {
+    $classes = paragraph_class_paragraphs_get_classes($vars[PARAGRAPHS_ENTITY_TYPE]);
+
+    foreach ($classes as $class) {
+      $vars['classes_array'][] = drupal_html_class($class);
+    }
+  }
+}
+
+/**
+ * Get class names from paragraph item.
+ *
+ * @param ParagraphsItemEntity $item
+ * @return string
+ */
+function paragraph_class_paragraphs_get_classes(ParagraphsItemEntity $item) {
+  $classes = array();
+  $instances = field_info_instances(PARAGRAPHS_ENTITY_TYPE, $item->bundle);
+
+  foreach ($instances as $instance) {
+    $field_name = $instance['field_name'];
+    $field = field_info_field($field_name);
+
+    if ($field['type'] == 'text' && $field['field_name'] == PC_CLASS_FIELD) {
+      // Determine the list of languages to iterate on.
+      $languages = field_available_languages(PARAGRAPHS_ENTITY_TYPE, $field);
+
+      foreach ($languages as $langcode) {
+        if (!empty($item->{$field_name}[$langcode])) {
+          foreach ($item->{$field_name}[$langcode] as $field_item) {
+            $classes[] = $field_item['value'];
+          }
+        }
+      }
+    }
+  }
+
+  return $classes;
+}

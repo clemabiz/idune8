@@ -1,0 +1,9 @@
+# All action links for this module
+bank_details.bank_details_add:
+  # Which route will be called by the link
+  route_name: bank_details.bank_details_add
+  title: 'Add bank_details'
+
+  # Where will the link appear, defined by route name.
+  appears_on:
+    - entity.bank_details.collection

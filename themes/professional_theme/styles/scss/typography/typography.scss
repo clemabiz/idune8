@@ -1,0 +1,34 @@
+@import 'variables';
+@import 'functions';
+
+body {
+  color: $textColor;
+  font-family: $baseFontFamily;
+  font-weight: $baseFontWeight;
+  line-height: $baseLineHeight;
+  font-size: calculateRem(14);
+}
+
+h1 {
+ font-size: calculateRem(32);
+}
+
+h2 {
+  font-size: calculateRem(24);
+}
+
+h3 {
+  font-size: calculateRem(20);
+}
+
+h4 {
+  font-size: calculateRem(18);
+}
+
+h5 {
+  font-size: calculateRem(16);
+}
+
+h6 {
+  font-size: calculateRem(15);
+}

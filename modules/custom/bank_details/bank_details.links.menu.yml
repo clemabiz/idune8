@@ -1,0 +1,12 @@
+# Define the menu links for this module
+
+entity.bank_details.collection:
+  title: 'bank_details Listing'
+  route_name: entity.bank_details.collection
+  description: 'List bank_detailss'
+  weight: 10
+bank_details.admin.structure.settings:
+  title: bank_details Settings
+  description: 'Configure bank_details entity'
+  route_name:  bank_details.bank_details_settings
+  parent: system.admin_structure

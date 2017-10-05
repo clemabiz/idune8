@@ -1,0 +1,25 @@
+<?php
+
+
+
+
+
+	  /**
+	 * Implements hook_theme(). for bank_details
+	 */
+
+	function bank_details_theme() {
+
+	  return array(
+	    'bank_details' => array(
+	      'render element' => 'content',
+	    ),
+	  );
+	}
+
+
+
+
+
+
+

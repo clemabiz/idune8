@@ -1,0 +1,11 @@
+@import 'variables';
+
+html {
+  background: $DocumentColor;
+  width: $DocumentWidth;
+}
+
+body {
+  background: $bodyColor;
+  width: $bodyWidth;
+}

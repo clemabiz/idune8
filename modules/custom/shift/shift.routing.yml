@@ -1,0 +1,56 @@
+# Route name can be used in several places; e.g. links, redirects, and local
+# actions.
+entity.shift.canonical:
+  path: '/shift/{shift}'
+  defaults:
+  # Calls the view controller, defined in the annotation of the shift entity
+    _entity_view: 'shift'
+    _title: 'shift Content'
+  requirements:
+  # Calls the access controller of the entity, $operation 'view'
+    _entity_access: 'shift.view'
+
+entity.shift.collection:
+  path: '/shift/list'
+  defaults:
+  # Calls the list controller, defined in the annotation of the shift entity.
+    _entity_list: 'shift'
+    _title: 'shift List'
+  requirements:
+  # Checks for permission directly.
+    _permission: 'view shift entity'
+
+shift.shift_add:
+  path: '/shift/add'
+  defaults:
+  # Calls the form.add controller, defined in the shift entity.
+    _entity_form: shift.add
+    _title: 'Add shift'
+  requirements:
+    _entity_create_access: 'shift'
+
+entity.shift.edit_form:
+  path: '/shift/{shift}/edit'
+  defaults:
+  # Calls the form.edit controller, defined in the shift entity.
+    _entity_form: shift.edit
+    _title: 'Edit shift'
+  requirements:
+    _entity_access: 'shift.edit'
+
+entity.shift.delete_form:
+  path: '/shift/{shift}/delete'
+  defaults:
+    # Calls the form.delete controller, defined in the shift entity.
+    _entity_form: shift.delete
+    _title: 'Delete shift'
+  requirements:
+    _entity_access: 'shift.delete'
+
+shift.shift_settings:
+  path: 'admin/structure/shift_settings'
+  defaults:
+    _form: '\Drupal\shift\Form\shiftSettingsForm'
+    _title: 'shift Settings'
+  requirements:
+    _permission: 'administer shift entity'

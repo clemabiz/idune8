@@ -1,0 +1,25 @@
+<?php
+
+
+
+
+
+	  /**
+	 * Implements hook_theme(). for shift
+	 */
+
+	function shift_theme() {
+
+	  return array(
+	    'shift' => array(
+	      'render element' => 'content',
+	    ),
+	  );
+	}
+
+
+
+
+
+
+

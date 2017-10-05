@@ -1,0 +1,4 @@
+name: Vehicle Entity
+type: module
+description: 'Vehicle is new custom entity.'
+core: '8.x'

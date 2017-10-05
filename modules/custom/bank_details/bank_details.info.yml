@@ -1,0 +1,4 @@
+name: bank_details Entity
+type: module
+description: 'bank_details is new custom entity.'
+core: '8.x'

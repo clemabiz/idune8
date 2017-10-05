@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * @file
+ * Install file paragraph class.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function paragraph_class_install() {
+  // Create field.
+  field_cache_clear();
+
+  // Exit if field already created.
+  if (field_info_field(PC_CLASS_FIELD)) {
+    return;
+  }
+
+  $field = _paragraph_class_get_field(array(
+    'field_name' => PC_CLASS_FIELD,
+    'type' => 'text',
+  ));
+
+  if (!empty($field)) {
+    // Create new instance of the field.
+    $instance = array(
+      'field_name' => PC_CLASS_FIELD,
+      'entity_type' => PARAGRAPHS_ENTITY_TYPE,
+      'bundle' => 'paragraph_class',
+      'label' => t('Paragraph Class'),
+      'required' => FALSE,
+      'display' => array(
+        'default' => array(
+          'type' => 'hidden',
+        ),
+      ),
+      'settings' => array(),
+    );
+    $instance_info = field_info_instance(PARAGRAPHS_ENTITY_TYPE, $instance['field_name'], $instance['bundle']);
+  }
+
+  if (empty($instance_info)) {
+    field_create_instance($instance);
+  }
+}

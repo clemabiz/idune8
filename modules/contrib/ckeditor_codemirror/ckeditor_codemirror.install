@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the CKEditor CodeMirror module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function ckeditor_codemirror_requirements($phase) {
+  if ($phase != 'runtime') {
+    return FALSE;
+  }
+  $return = array();
+
+  // If the library is installed.
+  if (($library = libraries_detect('ckeditor.codemirror')) && !empty($library['installed'])) {
+    $return['ckeditor_codemirror_library'] = array(
+      'title' => t('CKEditor CodeMirror'),
+      'severity' => REQUIREMENT_OK,
+      'value' => t('CKEditor CodeMirror plugin %version installed at %path.',
+        array(
+          '%path' => $library['library path'],
+          '%version' => $library['version'],
+        )),
+    );
+  }
+  else {
+    $return['ckeditor_codemirror_library'] = array(
+      'title' => t('CKEditor CodeMirror'),
+      'severity' => REQUIREMENT_ERROR,
+      'value' => t('CKEditor CodeMirror plugin was not found. Download <a href=":link">the latest version of library</a> and place it in the libraries director (sites/all/libraries/ckeditor.codemirror).',
+        array(
+          ':link' => 'https://github.com/w8tcha/CKEditor-CodeMirror-Plugin/releases',
+        )),
+    );
+  }
+
+  return $return;
+}

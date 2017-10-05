@@ -1,0 +1,38 @@
+{#
+/**
+ * @file
+ * Default simple view template to display a list of rows.
+ *
+ * @ingroup views_templates
+ */
+#}
+
+{% if title %}
+  <{{ group.element }}{{ group.attributes }}>
+    {{ title }}
+  </{{ group.element }}>
+{% endif %}
+
+
+{% if list.element %}
+  <{{ list.element }}{{ list.attributes }}>
+{% endif %}
+
+
+{% for id, row in rows %}
+
+  <{{ row.element }} {{ row.attributes }}>
+
+    {{ row.content }}
+
+  </{{ row.element }}>
+
+{% endfor %}
+
+
+
+{% if list.element %}
+  </{{ list.element }}>
+{% endif %}
+
+

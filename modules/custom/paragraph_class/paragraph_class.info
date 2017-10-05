@@ -1,0 +1,5 @@
+name = Paragraph Class
+description = Adding a custom css class text field to each paragraph bundle.
+core = 7.x
+package = Paragraph
+dependencies[] = paragraphs

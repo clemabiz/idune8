@@ -1,0 +1,12 @@
+# Define the menu links for this module
+
+entity.shift.collection:
+  title: 'shift Listing'
+  route_name: entity.shift.collection
+  description: 'List shifts'
+  weight: 10
+shift.admin.structure.settings:
+  title: shift Settings
+  description: 'Configure shift entity'
+  route_name:  shift.shift_settings
+  parent: system.admin_structure

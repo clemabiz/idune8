@@ -1,0 +1,6 @@
+name: Inventory
+type: module
+description: 'Provides Inventory entity.'
+package: Custom
+core: 8.x
+package: Custom

@@ -1,0 +1,60 @@
+# Route name can be used in several place (links, redirects, local actions etc.)
+entity.inventory.canonical:
+  path: '/inventory/{inventory}'
+  defaults:
+  # Calls the view controller, defined in the annotation of the contact entity
+    _entity_view: 'inventory'
+    _title: 'Inventory Content'
+  requirements:
+  # Calls the access controller of the entity, $operation 'view'
+    _entity_access: 'inventory.view'
+
+#######################################################################################
+entity.inventory.collection:
+  path: '/inventory/list'
+  defaults:
+  # Calls the list controller, defined in the annotation of the contact entity.
+    _entity_list: 'inventory'
+    _title: 'Inventory List'
+  requirements:
+  # Checks for permission directly.
+    _permission: 'view inventory entity'
+
+#######################################################################################
+entity.inventory.add_form:
+  path: '/inventory/add'
+  defaults:
+  # Calls the form.add controller, defined in the contact entity.
+    _entity_form: inventory.add
+    _title: 'Add Inventory'
+  requirements:
+    _entity_create_access: 'inventory'
+
+#######################################################################################
+entity.inventory.edit_form:
+  path: '/inventory/{inventory}/edit'
+  defaults:
+  # Calls the form.edit controller, defined in the inventory entity.
+    _entity_form: inventory.edit
+    _title: 'Edit Inventory'
+  requirements:
+    _entity_access: 'inventory.edit'
+
+#######################################################################################
+entity.inventory.delete_form:
+  path: '/inventory/{inventory}/delete'
+  defaults:
+    # Calls the form.delete controller, defined in the contact entity.
+    _entity_form: inventory.delete
+    _title: 'Delete Inventory'
+  requirements:
+    _entity_access: 'inventory.delete'
+
+#######################################################################################
+inventory.inventory_settings:
+  path: 'admin/structure/inventory_settings'
+  defaults:
+    _form: '\Drupal\inventory\Form\InventorySettingsForm'
+    _title: 'Inventory Settings'
+  requirements:
+    _permission: 'administer contact entity'

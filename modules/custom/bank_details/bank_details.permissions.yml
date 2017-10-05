@@ -1,0 +1,10 @@
+'delete bank_details entity':
+  title: Delete entity content.
+'add bank_details entity':
+  title: Add entity content
+'view bank_details entity':
+  title: View entity content
+'edit bank_details entity':
+  title: Edit entity content
+'administer bank_details entity':
+  title: Administer settings

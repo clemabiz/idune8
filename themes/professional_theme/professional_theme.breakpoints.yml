@@ -1,0 +1,30 @@
+professional_theme.small_only:
+  label: small_only
+  mediaQuery: 'all and (min-width: 560px) and (max-width: 850px)'
+  weight: 1
+  multipliers:
+    - 1x
+professional_theme.medium_up:
+  label: medium_up
+  mediaQuery: '@media screen and (min-width: 40em)'
+  weight: 1
+  multipliers:
+    - 1x
+professional_theme.medium_only:
+  label: medium_only
+  mediaQuery: '@media screen and (min-width: 40em) and (max-width: 63.9375em)'
+  weight: 1
+  multipliers:
+    - 1x
+professional_theme.large_up:
+  label: large_up
+  mediaQuery: '@media screen and (min-width: 64em)'
+  weight: 1
+  multipliers:
+    - 1x
+professional_theme.large_only:
+  label: large_only
+  mediaQuery: '@media screen and (min-width: 64em) and (max-width: 74.9375em)'
+  weight: 1
+  multipliers:
+    - 1x

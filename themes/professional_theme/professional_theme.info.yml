@@ -1,0 +1,40 @@
+name: Professional Theme
+type: theme
+description: modern and professional looking theme
+package: Theme
+# core: 8.x
+libraries:
+  - professional_theme/global-styling
+
+base theme: classy
+
+regions:
+  top: Top
+  hero: Hero
+  left_side: Left Side
+  content: Content
+  right_side: Right Side
+  footer: Footer
+
+features:
+  comment_user_picture: false
+  comment_user_verification: false
+  favicon: true
+  logo: true
+  name: true
+  node_user_picture: false
+  slogan: true
+
+favicon:
+  use_default: 1
+  path: 'favicon.ico'
+
+logo:
+  use_default: 1
+  path: 'logo.png'
+
+# Information added by Drupal.org packaging script on 2016-07-28
+version: '8.x-1.3'
+core: '8.x'
+project: 'professional_theme'
+datestamp: 1469727865

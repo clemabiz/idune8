@@ -1,0 +1,83 @@
+# Define the 'local' links for the module
+
+bank_details.settings_tab:
+  route_name: bank_details.bank_details_settings
+  title: Settings
+  base_route: bank_details.bank_details_settings
+
+bank_details.view:
+  route_name: entity.bank_details.canonical
+  base_route: entity.bank_details.canonical
+  title: View
+
+bank_details.page_edit:
+  route_name: entity.bank_details.edit_form
+  base_route: entity.bank_details.canonical
+  title: Edit
+
+bank_details.delete_confirm:
+  route_name:  entity.bank_details.delete_form
+  base_route:  entity.bank_details.canonical
+  title: Delete
+  weight: 10
+
+
+
+
+# #make bank_details.home route the base tab
+
+# #make bank_details.home route the base tab
+# #to which other tabs will attach
+# bank_details.view: #give it the same name as the route to make it clear
+#   title: Settings
+#   route_name: bank_details.bank_details_settings #route defined in .routing.yml
+#   base_route: bank_details.bank_details_settings #same as the route name
+#   weight: 0
+
+# #to which other tabs will attach
+# bank_details.view: #give it the same name as the route to make it clear
+#   title: View
+#   route_name: entity.bank_details.collection #route defined in .routing.yml
+#   base_route: entity.bank_details.canonical #same as the route name
+#   weight: 1
+
+# #add another tab next to the home tab
+# entity.bank_details.edit: #name it same as route to avoid confusion
+#   title: Edit
+#   #route defined in .routing.yml
+#   route_name: entity.bank_details.edit_form #link to tab1 route
+#   #route defined in .routing.yml
+#   base_route: entity.bank_details.canonical #set the base tab
+#   weight: 3
+
+# #add another tab next to the base tab
+# entity.bank_details.delete: #name it same as route to avoid confusion
+#   title: Delete
+#   #route defined in .routing.yml
+#   route_name: entity.bank_details.delete_form #link to tab2 route
+#   #route defined in .routing.yml
+#   base_route: entity.bank_details.canonical #set the base tab
+#   weight: 4
+
+#######################################################################################
+#this will create a secondary tab under "Tab 1"
+#the first menu item of the "Sub 1" tabe will point to the URL
+#as "Sub 1" tab itself
+#bank_details.tab1.list: #make it clear that this is a sub tab of "Tab1"
+ # title: List
+ # #route that it should point to   in .routing.yml
+ # route_name: bank_details.tab1 #link to same URL as the parent tab "Tab 1"
+ # #parent_id refers to the task name in .links.task.yml(this file)
+ # #NOT the router name defined in .routing.yml
+ # parent_id: bank_details.tab1  #the parent tab
+ # weight: 1
+#
+#bank_details.tab1.list2: #make it clear that this is another sub tab of "Tab 1"
+#  title: List 2
+#  #route that it should point to   in .routing.yml
+#  route_name: bank_details.tab2sub2 #link
+#  #parent_id refers to the task name in .links.task.yml(this file)
+#  #NOT the router name defined in .routing.yml
+#  parent_id: bank_details.tab1 #parent tab is "Tab 1"
+#  weight: 2
+#

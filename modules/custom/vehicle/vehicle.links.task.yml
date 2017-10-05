@@ -1,0 +1,86 @@
+# Define the 'local' links for the module
+
+vehicle.settings_tab:
+  route_name: vehicle.vehicle_settings
+  title: Settings
+  base_route: vehicle.vehicle_settings
+
+vehicle.view:
+  route_name: entity.vehicle.canonical
+  base_route: entity.vehicle.canonical
+  title: View
+
+vehicle.page_edit:
+  route_name: entity.vehicle.edit_form
+  base_route: entity.vehicle.canonical
+  title: Edit
+
+vehicle.delete_confirm:
+  route_name:  entity.vehicle.delete_form
+  base_route:  entity.vehicle.canonical
+  title: Delete
+  weight: 10
+
+# vehicle.vehicle_form:
+#   route_name:  entity.vehicle.add_form
+#   base_route:  entity.vehicle.canonical
+#   title: Delete
+#   weight: 11
+
+# #make vehicle.home route the base tab
+
+# #make vehicle.home route the base tab
+# #to which other tabs will attach
+# vehicle.view: #give it the same name as the route to make it clear
+#   title: Settings
+#   route_name: vehicle.vehicle_settings #route defined in .routing.yml
+#   base_route: vehicle.vehicle_settings #same as the route name
+#   weight: 0
+
+# #to which other tabs will attach
+# vehicle.view: #give it the same name as the route to make it clear
+#   title: View
+#   route_name: entity.vehicle.collection #route defined in .routing.yml
+#   base_route: entity.vehicle.canonical #same as the route name
+#   weight: 1
+
+# #add another tab next to the home tab
+# entity.vehicle.edit: #name it same as route to avoid confusion
+#   title: Edit
+#   #route defined in .routing.yml
+#   route_name: entity.vehicle.edit_form #link to tab1 route
+#   #route defined in .routing.yml
+#   base_route: entity.vehicle.canonical #set the base tab
+#   weight: 3
+
+# #add another tab next to the base tab
+# entity.vehicle.delete: #name it same as route to avoid confusion
+#   title: Delete
+#   #route defined in .routing.yml
+#   route_name: entity.vehicle.delete_form #link to tab2 route
+#   #route defined in .routing.yml
+#   base_route: entity.vehicle.canonical #set the base tab
+#   weight: 4
+
+#######################################################################################
+#this will create a secondary tab under "Tab 1"
+#the first menu item of the "Sub 1" tabe will point to the URL
+#as "Sub 1" tab itself
+#vehicle.tab1.list: #make it clear that this is a sub tab of "Tab1"
+ # title: List
+ # #route that it should point to   in .routing.yml
+ # route_name: vehicle.tab1 #link to same URL as the parent tab "Tab 1"
+ # #parent_id refers to the task name in .links.task.yml(this file)
+ # #NOT the router name defined in .routing.yml
+ # parent_id: vehicle.tab1  #the parent tab
+ # weight: 1
+#
+#vehicle.tab1.list2: #make it clear that this is another sub tab of "Tab 1"
+#  title: List 2
+#  #route that it should point to   in .routing.yml
+#  route_name: vehicle.tab2sub2 #link
+#  #parent_id refers to the task name in .links.task.yml(this file)
+#  #NOT the router name defined in .routing.yml
+#  parent_id: vehicle.tab1 #parent tab is "Tab 1"
+#  weight: 2
+#

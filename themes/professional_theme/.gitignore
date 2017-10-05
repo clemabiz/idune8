@@ -1,0 +1,11 @@
+*.settings
+.buildpath
+.project
+
+#dont commit node modules
+gulp/node_modules
+
+#dont commit compiled css
+styles/compile.css
+styles/compile.css.map
+LICENSE.txt

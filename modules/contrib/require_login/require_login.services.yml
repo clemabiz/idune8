@@ -1,0 +1,5 @@
+services:
+  require_login.request_subscriber:
+    class: Drupal\require_login\EventSubscriber\RequireLoginSubscriber
+    tags:
+      - {name: event_subscriber}

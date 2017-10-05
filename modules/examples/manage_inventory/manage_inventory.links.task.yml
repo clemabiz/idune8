@@ -1,0 +1,22 @@
+# Define the 'local' links for the module
+
+inventory.settings_tab:
+  route_name: inventory.inventory_settings
+  title: Settings
+  base_route: inventory.inventory_settings
+
+inventory.view:
+  route_name: entity.inventory.canonical
+  base_route: entity.inventory.canonical
+  title: View
+
+contact.page_edit:
+  route_name: entity.inventory.edit_form
+  base_route: entity.inventory.canonical
+  title: Edit
+
+contact.delete_confirm:
+  route_name:  entity.inventory.delete_form
+  base_route:  entity.inventory.canonical
+  title: Delete
+  weight: 10
