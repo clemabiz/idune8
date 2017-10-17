@@ -87,68 +87,18 @@ class Vehicle extends ContentEntityBase implements VehicleInterface {
       ->setDescription(t('The UUID of the Vehicle entity.'))
       ->setReadOnly(TRUE);
 
-/*
-    //Vehicle Owner
-    $fields['vehicle_owner'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Vehicle Owner'))
-      ->setDescription(t('Vehicle owner.'))
-      ->setSetting('target_type', 'user')
-      ->setSetting('handler', 'default')
-
-      ->setDisplayOptions('view', array(
-        'label' => 'above',
-        'type' => 'entity_reference',
-      ))
-      ->setDisplayOptions('form', array(
-        'type' => 'entity_reference_autocomplete',
-        'settings' => array(
-          'match_operator' => 'CONTAINS',
-          'size' => 60,
-          'autocomplete_type' => 'tags',
-          'placeholder' => '',
-          'weight' => 0,
-        ),
-      ))
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
-
-
-    $fields['name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Name'))
-      ->setDescription(t('The name of the Contact entity.'))
-      ->setSettings(array(
-        'default_value' => '',
-        'max_length' => 255,
-        'text_processing' => 0,
-      ))
-      ->setDisplayOptions('view', array(
-        'label' => 'above',
-        'type' => 'string',
-        'weight' => -6,
-      ))
-      ->setDisplayOptions('form', array(
-        'type' => 'string_textfield',
-        'weight' => -6,
-      ))
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
-*/
-    //A Make
-    // ListTextType with a drop down menu widget.
-    // The values shown in the menu are 'male' and 'female'.
-    // In the view the field content is shown as string.
-    // In the form the choices are presented as options list.
-
     $vid = 'make';
     $options = array();
     $terms = \Drupal::entityManager()->getStorage('taxonomy_term')->loadTree($vid, $parent = 0, $max_depth = NULL, $load_entities = FALSE);
     foreach ($terms as $term) {
       $options[$term->name] = $term->name;
     }
-    $fields['make'] = BaseFieldDefinition::create('list_string')
-      ->setLabel(t('Make'))
-      ->setDescription(t('The Make.'))
-      ->setSettings(array('allowed_values' => $options))
+
+
+    $fields['temperature'] = BaseFieldDefinition::create('list_string')
+      ->setLabel(t('Temperature'))
+      ->setDescription(t('The Temperature.'))
+//      ->setSettings(array('allowed_values' => $options))
       ->setSettings(array(
         'default_value' => '',
         'max_length' => 60,
@@ -157,23 +107,24 @@ class Vehicle extends ContentEntityBase implements VehicleInterface {
       ->setDisplayOptions('view', array(
         'label' => 'hidden',
         'type' => 'list_default',
+        'weight' => 3,
       ))
       ->setDisplayOptions('form', array(
         'type' => 'options_select',
-        'weight' => 1,
+        'weight' => 3,
       ))
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
-
+/*
     //A Model
     // ListTextType with a drop down menu widget.
     // The values shown in the menu are 'male' and 'female'.
     // In the view the field content is shown as string.
     // In the form the choices are presented as options list.
-    $vid = 'bmw';
-    $fields['model'] = BaseFieldDefinition::create('list_string')
-      ->setLabel(t('Model'))
-      ->setDescription(t('The Model.'))
+    //$vid = 'bmw';
+    $fields['color'] = BaseFieldDefinition::create('list_string')
+      ->setLabel(t('Color'))
+      ->setDescription(t('The Color.'))
       ->setSettings(array(
 //        'allowed_values' => $options1))
         'settings' => array(
@@ -189,6 +140,7 @@ class Vehicle extends ContentEntityBase implements VehicleInterface {
       ->setDisplayOptions('view', array(
         'label' => 'hidden',
         'type' => 'list_default',
+        'weight' => 2,
       ))
 
       ->setDisplayOptions('form', array(
@@ -199,7 +151,7 @@ class Vehicle extends ContentEntityBase implements VehicleInterface {
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
-
+*/
     // body field for the contact.
     // ListTextType with a drop down menu widget.
     // The values shown in the menu are 'male' and 'female'.
@@ -207,7 +159,7 @@ class Vehicle extends ContentEntityBase implements VehicleInterface {
     // In the form the choices are presented as options list.
 
     $body = array();
-    $terms = \Drupal::entityManager()->getStorage('taxonomy_term')->loadTree('Body', $parent = 0, $max_depth = NULL, $load_entities = FALSE);
+    $terms = \Drupal::entityManager()->getStorage('taxonomy_term')->loadTree('body', $parent = 0, $max_depth = NULL, $load_entities = FALSE);
     foreach ($terms as $term) {
       $body[$term->name] = $term->name;
     }
@@ -219,42 +171,15 @@ class Vehicle extends ContentEntityBase implements VehicleInterface {
       ->setDisplayOptions('view', array(
         'label' => 'above',
         'type' => 'string',
-        'weight' => -4,
+        'weight' => 1,
       ))
       ->setDisplayOptions('form', array(
         'type' => 'options_select',
-        'weight' => -4,
+        'weight' => 1,
       ))
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
     /*** 'body' end ***/
-
-/*    // Gender field for the contact.
-    // ListTextType with a drop down menu widget.
-    // The values shown in the menu are 'male' and 'female'.
-    // In the view the field content is shown as string.
-    // In the form the choices are presented as options list.
-    $fields['gender'] = BaseFieldDefinition::create('list_string')
-      ->setLabel(t('Gender'))
-      ->setDescription(t('The gender of the Contact entity.'))
-      ->setSettings(array(
-        'allowed_values' => array(
-          'female' => 'female',
-          'male' => 'male',
-        ),
-      ))
-      ->setDisplayOptions('view', array(
-        'label' => 'above',
-        'type' => 'list_default',
-        'weight' => -4,
-      ))
-      ->setDisplayOptions('form', array(
-        'type' => 'options_select',
-        'weight' => -4,
-      ))
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
-*/
 
     $fields['langcode'] = BaseFieldDefinition::create('language')
       ->setLabel(t('Language code'))
@@ -268,7 +193,7 @@ class Vehicle extends ContentEntityBase implements VehicleInterface {
 
     return $fields;
   }
-
+/*
   function _my_feature_module_options_list(FieldStorageConfig $definition, ContentEntityInterface $entity = NULL, $cacheable) {
 
 //  function _my_feature_module_options_list($vid) {
@@ -285,22 +210,5 @@ class Vehicle extends ContentEntityBase implements VehicleInterface {
     return $options;
   }
 
-
-
-
-
-
-
-
-/*
-  public static function _my_feature_module_options_list() {
-    $results = db_query("SELECT Name, Label FROM {list_table}");
-   
-    $options = array();
-    foreach ($results AS $result) {
-      $options[$result->value] = t($result->label);
-    }
-  }
 */
-
 }

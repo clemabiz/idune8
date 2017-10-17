@@ -2,15 +2,26 @@
 
 namespace Drupal\vehicle\Form;
 
+
+use Drupal\Core\Entity\ContentEntityForm;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+// Traits
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\ContentEntityForm;
+
+
+
+
+
 /**
  * VehicleForm.
  */
 class VehicleForm extends ContentEntityForm {
+      use StringTranslationTrait;
+
 //  class VehicleForm extends FormBase {
   /**
    * The term Storage.
@@ -28,7 +39,7 @@ class VehicleForm extends ContentEntityForm {
 
   /**
    * {@inheritdoc}
-   */
+   */  
   public static function create(ContainerInterface $container) {
     // Instantiates this form class.
     return new static(
@@ -46,45 +57,125 @@ class VehicleForm extends ContentEntityForm {
 
   /**
    * {@inheritdoc}
-   */
+   
   public function buildForm(array $form, FormStateInterface $form_state, $params = NULL) {
+  */
+
+  public function buildForm(array $form, FormStateInterface $form_state) {
 
     /* @var $entity \Drupal\vehicle\Entity\Vehicle */
     $form = parent::buildForm($form, $form_state);
     $entity = $this->entity;
 
-    $brands = $this->termStorage->loadTree('make', 0, NULL, TRUE);
-    $options = [];
-    if ($brands) {
-      foreach ($brands as $brand) {
-        $options[$brand->getName()] = $brand->getName();
-      }
-    }
-    $form['make'] = array(
-      '#type'    => 'select',
-      '#title'   => $this->t('Make'),
-      '#options' => $options,
-      '#ajax'    => array(
-        'callback' => [$this, 'selectModelsAjax'],
-        'wrapper'  => 'model_wrapper',
-      ),
-    );
-
-    $form['model'] = array(
-      '#type'      => 'select',
-      '#title'     => $this->t('Model'),
-      '#options'   => ['_none' => $this->t('- Select a brand before -')],
-      '#prefix'    => '<div id="model_wrapper">',
-      '#suffix'    => '</div>',
-      '#validated' => TRUE,
-    );
-
-    $form['actions']['submit'] = [
-      '#type'  => 'submit',
-      '#value' => $this->t('Send'),
+    // The #ajax attribute used in the temperature input element defines an ajax
+    // callback that will invoke the 'updateColor' method on this form object.
+    // Whenever the temperature element changes, it will invoke this callback
+    // and replace the contents of the 'color_wrapper' container with the
+    // results of this method call.
+    $form['temperature'] = [
+      '#title' => $this->t('Temperature'),
+      '#type' => 'select',
+      '#options' => $this->getColorTemperatures(),
+      '#empty_option' => $this->t('- Select a color temperature -'),
+      '#ajax' => [
+        // Could also use [get_class($this), 'updateColor'].
+        'callback' => '::updateColor',
+        'wrapper' => 'color-wrapper',
+      ],
     ];
 
-    return $form;
+    // Add a wrapper that can be replaced with new HTML by the ajax callback.
+    // This is given the ID that was passed to the ajax callback in the '#ajax'
+    // element above.
+    $form['color_wrapper'] = [
+      '#type' => 'container',
+      '#attributes' => ['id' => 'color-wrapper'],
+    ];
+
+    // Add a color element to the color_wrapper container using the value
+    // from temperature to determine which colors to include in the select
+    // element.
+    $temperature = $form_state->getValue('temperature');
+    if (!empty($temperature)) {
+      $form['color_wrapper']['color'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Color'),
+        '#options' => $this->getColorsByTemperature($temperature),
+      ];
+    }
+/*
+    // Add a submit button that handles the submission of the form.
+    $form['actions'] = [
+      '#type' => 'actions',
+      'submit' => [
+        '#type' => 'submit',
+        '#value' => $this->t('Submit'),
+      ],
+    ];
+
+*/    return $form;
+  }
+
+  /**
+   * Ajax callback for the color dropdown.
+   */
+  public function updateColor(array $form, FormStateInterface $form_state) {
+    return $form['color_wrapper'];
+  }
+
+  /**
+   * Returns colors that correspond with the given temperature.
+   *
+   * @param string $temperature
+   *   The color temperature for which to return a list of colors. Can be either
+   *   'warm' or 'cool'.
+   *
+   * @return array
+   *   An associative array of colors that correspond to the given color
+   *   temperature, suitable to use as form options.
+   */
+  protected function getColorsByTemperature($temperature) {
+    return $this->getColors()[$temperature]['colors'];
+  }
+
+  /**
+   * Returns a list of color temperatures.
+   *
+   * @return array
+   *   An associative array of color temperatures, suitable to use as form
+   *   options.
+   */
+  protected function getColorTemperatures() {
+    return array_map(function ($color_data) {
+      return $color_data['name'];
+    }, $this->getColors());
+  }
+
+  /**
+   * Returns an array of colors grouped by color temperature.
+   *
+   * @return array
+   *   An associative array of color data, keyed by color temperature.
+   */
+  protected function getColors() {
+    return [
+      'warm' => [
+        'name' => $this->t('Warm'),
+        'colors' => [
+          'red' => $this->t('Red'),
+          'orange' => $this->t('Orange'),
+          'yellow' => $this->t('Yellow'),
+        ],
+      ],
+      'cool' => [
+        'name' => $this->t('Cool'),
+        'colors' => [
+          'blue' => $this->t('Blue'),
+          'purple' => $this->t('Purple'),
+          'green' => $this->t('Green'),
+        ],
+      ],
+    ];
   }
 
 
@@ -92,11 +183,40 @@ class VehicleForm extends ContentEntityForm {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
+
+/*
+    // Assert the make is valid
+    if (!$form_state->getValue('make') || empty($form_state->getValue('make'))) {
+        $form_state->setErrorByName('[make]', $this->t('Your Make is mandatory.'));
+    }
+
+    // Assert the model is valid
+    if (!$form_state->getValue('model') || empty($form_state->getValue('model'))) {
+        $form_state->setErrorByName('[model]', $this->t('Your model is required..'));
+    }
+
+*/
+    // Assert the body is valid
+    if (!$form_state->getValue('body') || empty($form_state->getValue('body'))) {
+        $form_state->setErrorByName('[body]', $this->t('Your body is mandatory.'));
+    }
+
+    // If validation errors, add inline errors
+    if ($errors = $form_state->getErrors()) {
+      // Add error to fields using Symfony Accessor
+      $accessor = PropertyAccess::createPropertyAccessor();
+      foreach ($errors as $field => $error) {
+        if ($accessor->getValue($form, $field)) {
+          $accessor->setValue($form, $field.'[#prefix]', '<div class="form-group error">');
+          $accessor->setValue($form, $field.'[#suffix]', '<div class="input-error-desc">' .$error. '</div></div>');
+        }
+      }
+    }
   }
 
   /**
    * {@inheritdoc}
-   */
+
   public function save(array $form, FormStateInterface $form_state) {
     $status = parent::save($form, $form_state);
 dpm($status);
@@ -110,11 +230,12 @@ dpm($status);
     $form_state->setRedirectUrl($this->entity->toUrl('collection'));
     return $status;
   }
+   */
 
 
-/*  
+  /*  
    * {@inheritdoc}
-
+   */
   public function save(array $form, FormStateInterface $form_state) {
     parent::save($form, $form_state);
 
@@ -133,13 +254,12 @@ dpm($status);
     $form_state->setRedirectUrl($entity->toUrl('canonical'));
   }   
 
-*/  /**
+  /**
    * {@inheritdoc}
   
   public function submitForm(array &$form, FormStateInterface $form_state) {
   }
   */
-
 
   /**
    * Called via Ajax to populate the Model field according brand.

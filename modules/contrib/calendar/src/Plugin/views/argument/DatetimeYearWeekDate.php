@@ -2,7 +2,7 @@
 
 namespace Drupal\calendar\Plugin\views\argument;
 
-use Drupal\datetime\Plugin\views\Argument\Date;
+use Drupal\datetime\Plugin\views\argument\Date;
 
 /**
  * Argument handler for a day.

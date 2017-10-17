@@ -7,7 +7,6 @@ use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\views\Plugin\views\argument_default\ArgumentDefaultPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Drupal\datetime\Plugin\views\Argument\Date as DateArgument;
 
 /**
  * The current date argument default handler.
@@ -77,7 +76,7 @@ class Date extends ArgumentDefaultPluginBase implements CacheableDependencyInter
 
     // The Date argument handlers provide their own format strings, otherwise
     // use a default.
-    if ($argument instanceof DateArgument) {
+    if ($argument instanceof \Drupal\datetime\Plugin\views\argument\Date) {
       /** @var \Drupal\views\Plugin\views\argument\Date $argument */
       $format = $argument->getArgFormat();
     }
